@@ -1,0 +1,7 @@
+from isbnlib import get_isbnlike,editions,meta, classify, info, doi2tex, doi, cover, desc, get_canonical_isbn, canonical, is_isbn10, is_isbn13
+ 
+textcontent = "ANDRADE, Maria Margarida de. Introdução à metodologia do trabalho científico: elaboração de trabalhos na graduação. 10ª. São Paulo Atlas 2012 1 recurso online ISBN 9788522478392. Disponível em https://integrada.minhabiblioteca.com.br/books/9788522478392.  CALIJURI, Maria do Carmo. Engenharia Ambiental: conceitos, tecnologias e gestão. 2. Rio de Janeiro GEN LTC 2019 1 recurso online ISBN 9788595157446.  Disponível em https://integrada.minhabiblioteca.com.br/books/9788595157446.  HALLIDAY, David. Fundamentos de física, v.1 mecânica. 10. São Paulo LTC 2016 1 recurso online ISBN 9788521632054. Disponível em https://integrada.minhabiblioteca.com.br/reader/books/9788521632054. BEER, Ferdinand. Mecânica vetorial para engenheiros: Estática, v. 1. 11. Porto Alegre AMGH 2019 1 recurso online ISBN 9788580556209.  Disponível em https://integrada.minhabiblioteca.com.br/books/9788580556209.   MIRANDA, Shirley Aparecida de. Diversidade e ações afirmativas combatendo as desigualdades sociais. São Paulo Autêntica 2010 1 recurso online ISBN 9788582178157.Disponível em https://integrada.minhabiblioteca.com.br/books/9788582178157."
+#print(get_isbnlike(textcontent, level='normal'))
+#print(get_canonical_isbn(textcontent, output='bouth'))
+#print(desc('9788582602263'))
+print(meta('9788582602263',  service='default'))
