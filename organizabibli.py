@@ -40,8 +40,8 @@ def TextToBibliArray(biblitext):
     gojump=0
     while u <= len(d):
         if u<len(d): #previnir outofindex, já que o index é manipulado
-            if d[u] - d[u-1] < 50: #distâncias de ocorrência  menor que 50 caracteres representam ocorrência de co-autoria
-                gojump += 1 #se for menor que 50, salta para a próxima ocorrência
+            #if d[u] - d[u-1] < 50: #distâncias de ocorrência  menor que 50 caracteres representam ocorrência de co-autoria
+                #gojump += 1 #se for menor que 50, salta para a próxima ocorrência
             if u+gojump <= len(d): #to avoid outofindex
                 if u+gojump < len(d):
                     Bibliarray.append(biblitext[d[u-1]:d[u+gojump]])
@@ -89,6 +89,7 @@ for linha in range(2, max_linha+1):
     #print(basicbiblitxt) #enable to see original text
     compbiblitxt = planilha1.cell(row=linha, column=compbiblicoll).value
     compbiblitxt = compbiblitxt.replace("\n","")
+    compbiblitxt = compbiblitxt.replace("  ","")
     Bibliarray2 = TextToBibliArray(compbiblitxt)
     #writting elements
     print(len(Bibliarray1))
@@ -96,14 +97,19 @@ for linha in range(2, max_linha+1):
     while i < len(Bibliarray1):
         #print(i,"-",Bibliarray1[i])
         actualrow = planilha_output_excel_file.max_row + 1
-        planilha_output_excel_file.cell(row=actualrow, column=1, value=disciplina)
-        planilha_output_excel_file.cell(row=actualrow, column=2, value=Bibliarray1[i])
+        planilha_output_excel_file.cell(row=actualrow, column=1, value=disciplina) 
+        biblitxttemp = Bibliarray1[i]
+        if i + 1 < len(Bibliarray1):
+            if len(Bibliarray1[i+1])<50:
+                biblitxttemp = biblitxttemp + Bibliarray1[i+1]
+                i += 1
+        planilha_output_excel_file.cell(row=actualrow, column=2, value=biblitxttemp)
         planilha_output_excel_file.cell(row=actualrow, column=3, value="Básica")
-        urls = URLsearch(Bibliarray1[i])
+        urls = URLsearch(biblitxttemp)
         if len(urls)>0:
             planilha_output_excel_file.cell(row=actualrow, column=4, value=urls[0])
         #to understand how to get isbn, see: https://pypi.org/project/isbnlib/
-        isbn = get_canonical_isbn(Bibliarray1[i], output='bouth')
+        isbn = get_canonical_isbn(biblitxttemp, output='bouth')
         planilha_output_excel_file.cell(row=actualrow, column=5, value=isbn)  
         planilha_output_excel_file.append
         i += 1
@@ -111,12 +117,17 @@ for linha in range(2, max_linha+1):
     while j < len(Bibliarray2):
         actualrow = planilha_output_excel_file.max_row + 1
         planilha_output_excel_file.cell(row=actualrow, column=1, value=disciplina)
-        planilha_output_excel_file.cell(row=actualrow, column=2, value=Bibliarray2[j])
+        biblitxttemp = Bibliarray2[j]
+        if j + 1 < len(Bibliarray2):
+            if  len(Bibliarray2[j+1])<50:
+                biblitxttemp = biblitxttemp + Bibliarray2[j+1]
+                j += 1
+        planilha_output_excel_file.cell(row=actualrow, column=2, value=biblitxttemp)
         planilha_output_excel_file.cell(row=actualrow, column=3, value="Complementar")
-        urls = URLsearch(Bibliarray2[j])
+        urls = URLsearch(biblitxttemp)
         if len(urls)>0:
             planilha_output_excel_file.cell(row=actualrow, column=4, value=urls[0])
-        isbn = get_canonical_isbn(Bibliarray2[j], output='bouth')
+        isbn = get_canonical_isbn(biblitxttemp, output='bouth')
         planilha_output_excel_file.cell(row=actualrow, column=5, value=isbn)  
         planilha_output_excel_file.append
         j += 1
